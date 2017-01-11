@@ -1,15 +1,23 @@
 package eu.tankernn.julklapp;
 import java.awt.EventQueue;
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
 
 public class Julspel {
 
 	private JFrame frame;
+	
+	private ArrayList<String> name = new ArrayList<String>();
+
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
+
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -27,6 +35,10 @@ public class Julspel {
 	 */
 	public Julspel() {
 		initialize();
+		
+		name.add("Claes");
+		name.add("Lars");
+		name.add("");
 	}
 
 	/**
