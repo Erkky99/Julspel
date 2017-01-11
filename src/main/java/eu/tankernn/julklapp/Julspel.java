@@ -1,10 +1,15 @@
 package eu.tankernn.julklapp;
 import java.awt.EventQueue;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.swing.JFrame;
 
 public class Julspel {
 
 	private JFrame frame;
+	private Map<String, String> associations = new HashMap<>();
+	private int difficulty;
 
 	/**
 	 * Launch the application.
@@ -33,9 +38,16 @@ public class Julspel {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		generateAssociations();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+
+	private void generateAssociations() {
+		for (int i = 0; i < difficulty; i++) {
+			
+		}
 	}
 
 }
