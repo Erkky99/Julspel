@@ -1,0 +1,12 @@
+.settings/
+.classpath
+.project
+
+tmp/
+*.tmp
+*.bak
+*.swp
+
+bin/
+target/
+.DS_Store
