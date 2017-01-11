@@ -21,7 +21,10 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class Julspel {
-	public static final String[] NAMES = { "Claes", "Lars", "Fredrik", "Rune-Bertil", "Pepita" }, GIFTS = {"Nalle", "PS4", "PC", "Spel", "Lego"};
+	public static final String[] NAMES = { "Claes", "Lars", "Fredrik", "Rune-Bertil", "Pepita", "Magnus", "Kim",
+			"Frans", "Erik" },
+			GIFTS = { "Nalle", "PS4", "PC", "Spel", "Lego", "Pengar", "Biobiljett", "Headset", "Mus", "Tangentbord",
+					"Skärm" };
 
 	private Random rand = new Random();
 
@@ -30,8 +33,6 @@ public class Julspel {
 	private JButton showAllBtn = new JButton("Visa namn och klappar."), startBtn = new JButton("Starta spelet!");
 
 	private int difficulty = 3;
-
-	private Map<String, String> associations = new HashMap<>();
 
 	/**
 	 * Launch the application.
@@ -91,11 +92,10 @@ public class Julspel {
 	}
 
 	private void startGame() {
-		associations = generateAssociations();
-
+		Map<String, String> associations = generateAssociations();
 		Iterator<Entry<String, String>> entries = associations.entrySet().iterator();
 
-		for (int i = 0; i < difficulty - 1; i++) {
+		for (int i = 0; i < associations.size() - 1; i++) {
 			Entry<String, String> e = entries.next();
 			JOptionPane.showMessageDialog(frame, e.getKey() + " får " + e.getValue() + ".");
 		}
@@ -103,46 +103,53 @@ public class Julspel {
 		Entry<String, String> secret = entries.next();
 		String guessName = JOptionPane.showInputDialog(frame, "Vem är kvar?").trim().toLowerCase();
 		String guessGift = JOptionPane.showInputDialog(frame, "Vad får " + guessName + "?").trim().toLowerCase();
+
+		// These two are only used for checking correctness of answers
 		String correctName = secret.getKey().toLowerCase();
 		String correctGift = secret.getValue().toLowerCase();
+
 		String response;
 		if (guessName.equals(correctName) && guessGift.equals(correctGift))
 			response = "Grattis! Du hade alla rätt!";
 		else if (guessName.equals(correctName))
-			response = "Rätt namn, men fel klapp. Rätt klapp var " + correctGift + ".";
+			response = "Rätt namn, men fel klapp. Rätt klapp var " + secret.getValue() + ".";
 		else if (guessGift.equals(correctGift))
 			response = "Rätt klapp, men fel namn. Rätt namn var " + secret.getKey() + ".";
 		else
 			response = "Tyvärr, inga rätt. Rätt svar var: " + secret.getKey() + " får " + secret.getValue() + ".";
-		
+
 		JOptionPane.showMessageDialog(frame, response);
 	}
 
 	private Map<String, String> generateAssociations() {
 		Map<String, String> assoc = new HashMap<String, String>();
-		List<String> names = new ArrayList<String>(Arrays.asList(NAMES)), gifts = new ArrayList<String>(Arrays.asList(GIFTS));
-		
+		List<String> names = Arrays.asList(NAMES), gifts = Arrays.asList(GIFTS);
+
 		names = randomFilter(names, difficulty);
 		gifts = randomFilter(gifts, difficulty);
 		displayLists(names.toArray(new String[names.size()]), gifts.toArray(new String[names.size()]));
-		
+
 		while (!names.isEmpty()) {
 			assoc.put(names.remove(rand.nextInt(names.size())), gifts.remove(rand.nextInt(gifts.size())));
 		}
 		return assoc;
 	}
-	
+
 	/**
 	 * Removes elements from the list randomly to match the new size.
-	 * @param list The list to filter
-	 * @param newSize The target length of the list
+	 * 
+	 * @param list
+	 *            The list to filter
+	 * @param newSize
+	 *            The target length of the list
 	 * @return The new list
 	 */
 	private List<String> randomFilter(List<String> list, int newSize) {
-		while (list.size() > newSize) {
-			list.remove(rand.nextInt(list.size()));
+		ArrayList<String> newList = new ArrayList<String>(list);
+		while (newList.size() > newSize) {
+			newList.remove(rand.nextInt(newList.size()));
 		}
-		return list;
+		return newList;
 	}
 
 	private void displayLists(String[] names, String[] gifts) {
